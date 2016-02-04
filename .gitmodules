@@ -1,0 +1,3 @@
+[submodule "dairy_queen"]
+	path = dairy_queen
+	url = https://github.com/stevenpollack/dairy_queen.git
