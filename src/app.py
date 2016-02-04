@@ -14,7 +14,7 @@ import double_dip
 app = flask.Flask(__name__)
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET','POST'])
 def guacamole():
 
     days_from_now = 0  # deprecated since Kimono stopped allowing ondemand APIs
