@@ -18,11 +18,12 @@ app = flask.Flask(__name__)
 def guacamole():
 
     days_from_now = 0  # deprecated since Kimono stopped allowing ondemand APIs
-    ads_mins = flask.request.form.get('ads_mins', default=10, type=int)
-    trailers_mins = flask.request.form.get('trailers_mins', default=10, type=int)
+    ads_mins = flask.request.form.get('ads_mins', default=15, type=int)
+    trailers_mins = flask.request.form.get('trailers_mins', default=15, type=int)
     max_waiting_mins = flask.request.form.get('max_waiting_mins', default=45, type=int)
     acceptable_overlap_mins = flask.request.form.get('acceptable_overlap_mins', default=10, type=int)  # 0
     movies_to_exclude = flask.request.form.get('movies_to_exclude', default='Spectre, Star Wars').split(',')  # ['Spectre', 'Star Wars']  #set to None to disable
+    movies_to_exclude = [x.strip() for x in movies_to_exclude]
     interesting_movies = flask.request.form.get('interesting_movies', default=None, type=list)    # set to None to disable
     all_interesting_movies_must_be_in_dip = flask.request.form.get('all_interesting_movies_must_be_in_dip', default=False, type=bool)  # False  # consider any dip that has at least one of the interesting movies
 
@@ -57,6 +58,7 @@ def guacamole():
                                     interesting_movies=interesting_movies,
                                     all_interesting_movies_must_be_in_dip=all_interesting_movies_must_be_in_dip)
 
+    double_dips = [dip.split(' -> ') for dip in double_dips]
 
     return flask.json.jsonify(double_dips=double_dips)
 
