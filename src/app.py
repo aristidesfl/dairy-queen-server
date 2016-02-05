@@ -22,9 +22,11 @@ def guacamole():
     trailers_mins = flask.request.form.get('trailers_mins', default=15, type=int)
     max_waiting_mins = flask.request.form.get('max_waiting_mins', default=45, type=int)
     acceptable_overlap_mins = flask.request.form.get('acceptable_overlap_mins', default=10, type=int)  # 0
-    movies_to_exclude = flask.request.form.get('movies_to_exclude', default='Spectre, Star Wars').split(',')  # ['Spectre', 'Star Wars']  #set to None to disable
-    movies_to_exclude = [x.strip() for x in movies_to_exclude]
-    interesting_movies = flask.request.form.get('interesting_movies', default=None, type=list)    # set to None to disable
+    movies_to_exclude = flask.request.form.get('movies_to_exclude', default='Spectre, Star Wars')  # ['Spectre', 'Star Wars']  #set to None to disable
+    movies_to_exclude = [movie.strip() for movie in movies_to_exclude.split(',')]
+    interesting_movies = flask.request.form.get('interesting_movies', default=None)    # set to None to disable
+    if interesting_movies:
+        interesting_movies = [movie.strip() for movie in interesting_movies.split(',')]
     all_interesting_movies_must_be_in_dip = flask.request.form.get('all_interesting_movies_must_be_in_dip', default=False, type=bool)  # False  # consider any dip that has at least one of the interesting movies
 
     print days_from_now
