@@ -59,10 +59,17 @@ def guacamole():
                                     movies_to_exclude=movies_to_exclude,
                                     interesting_movies=interesting_movies,
                                     all_interesting_movies_must_be_in_dip=all_interesting_movies_must_be_in_dip)
+    double_dips = [dip.split(' -> ') for dip in double_dips]  # convert strings into lists
 
-    double_dips = [dip.split(' -> ') for dip in double_dips]
+    # separate multiple dips from single viewings
+    viewings = {'single': [], 'double_dip': []}
+    for dip in double_dips:
+        if len(dip) > 1:
+            viewings['double_dip'].append(dip)
+        else:
+            viewings['single'].append(dip.pop())
 
-    return flask.json.jsonify(double_dips=double_dips)
+    return flask.json.jsonify(listings=viewings['single'], double_dips=viewings['double_dip'])
 
 if __name__ == '__main__':
     app.run(debug=True)
